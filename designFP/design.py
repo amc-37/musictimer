@@ -2,18 +2,22 @@
 import datetime
 import radiohead.json as rh
 
-def songs_path():
-    """return the path to a spotify playlist in the form of """
+def songs_path(inp):
+    """ask for input in the form of a url, and return the path to a spotify playlist in the form of a list of songs in the playlist"""
+    # ask for input in the form of a url playlist link, and check that this is valid
     # for now, use radiohead.json to find path
-    pass
+    pass #maybe hard code this in for now
+    return q
+
 
 
 def main():
     # call function retrieving user input for spotify path to playlist
-    playlist = songs_path()
+    playlist = input("enter your playlist") # whatever we want
+    queue = songs_path(playlist)
 
-    #
 
+    # call function 
 
 if __name__ == '__main__':
     main()

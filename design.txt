@@ -5,7 +5,28 @@ songs
 time
 duration
 
-input- spotify playlist link:
+input- link to spotify playlist you want:
 
 figure out how spotify API works
 - access to queue, modify playback, etc
+
+put spotify ID of playlist
+could return playlist description!
+
+import time libraries
+ask playlist (input: link to spotify playlist)
+*check with spotify- is it playing or not playing
+ask type: time, duration, songs
+*ask- do you want it to start or stop playing? $$ (if START, songs is not an option)
+time
+    ask: at what time should we stop the playlist?
+    [wait until that time]
+    stop playlist
+duration
+    how many minutes/hours do you want?
+    stop after that much time
+songs
+    how many songs (until stop)
+    stop after that many
+$$ if wanted to stop, make sure started already in order to start eventually
+$$ if wanted to start, make sure stopped already in order to stop eventually

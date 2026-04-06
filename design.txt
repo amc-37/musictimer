@@ -32,3 +32,4 @@ $$ if wanted to stop, make sure started already in order to start eventually
 $$ if wanted to start, make sure stopped already in order to stop eventually
 
 
+added a json file with radiohead as an example

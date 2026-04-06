@@ -9,7 +9,9 @@ def songs_path(inp):
     pass #maybe hard code this in for now
     return q
 
-
+def stop_type(inp):
+    pass
+    return 
 
 def main():
     # call function retrieving user input for spotify path to playlist
@@ -17,7 +19,8 @@ def main():
     queue = songs_path(playlist)
 
 
-    # call function 
+    # call function asking for input about duration, songs, or time
+
 
 if __name__ == '__main__':
     main()

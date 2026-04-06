@@ -1,1 +1,11 @@
-hi
+input:
+a time, number of songs, number of minutes
+
+songs
+time
+duration
+
+input- spotify playlist link:
+
+figure out how spotify API works
+- access to queue, modify playback, etc

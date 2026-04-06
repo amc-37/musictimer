@@ -13,7 +13,7 @@ figure out how spotify API works
 put spotify ID of playlist
 could return playlist description!
 
-import time libraries
+import time libraries (import datetime)
 ask playlist (input: link to spotify playlist)
 *check with spotify- is it playing or not playing
 ask type: time, duration, songs
@@ -30,3 +30,5 @@ songs
     stop after that many
 $$ if wanted to stop, make sure started already in order to start eventually
 $$ if wanted to start, make sure stopped already in order to stop eventually
+
+

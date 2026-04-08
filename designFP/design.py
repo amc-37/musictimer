@@ -10,13 +10,29 @@ def songs_path(inp):
     # for now, use radiohead.json to find path
     pass #maybe hard code this in for now
     return path, q
-
+'''
 def stop_type(inp):
     """given an input time, duration, or songs, determine either a time,
     a duration, or a number of songs and return it using datetime library"""
     t, d, s = ''
     pass
     return t, d, s
+'''
+class StartStop(self, type):
+    """
+    ideas
+    """
+    self.type = type
+    pass
+
+class Time(StartStop):
+    pass
+
+class Duration(StartStop):
+    pass
+
+class Songs(StartStop):
+    pass
 
 def main():
     # call function retrieving user input for spotify path to playlist

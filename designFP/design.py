@@ -32,15 +32,18 @@ class StartStop:
         pass
 
 class Time(StartStop):
-    def __init__(self):
+    def __init__(self, point):
+        self.point = point
         pass
 
 class Duration(StartStop):
-    def __init__(self):
+    def __init__(self, length):
+        self.length = length
         pass
 
 class Songs(StartStop):
-    def __init__(self):
+    def __init__(self, number):
+        self.number = number
         pass
 
 def main():
@@ -54,7 +57,7 @@ def main():
     #try execept structure to check that the input is valid and one of our 3 options
     # do work with time
     if type == "time":
-        Time.
+        Time.point() #this will invoke methods of telling passage of time and start and stop the music 
     # do work with duration
 
     # do work with songs

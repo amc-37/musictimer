@@ -34,18 +34,30 @@ class StartStop:
 class Time(StartStop):
     def __init__(self, point_start, point_stop):
         self.point_start = point_start
+        self.point_stop = point_stop
 
         point_start = input("what time do you want the music to start?")
+        point_stop = input("what time do you want the music to stop?")
+
         pass
 
 class Duration(StartStop):
     def __init__(self, length_start, length_stop):
-        self.length = length
+        self.length_start = length_start
+        self.length_stop = length_stop
+
+        length_start = input("After how many minutes do you want the music to start?")
+        length_stop = input("After how many minutes do you want the music to stop?")
+
         pass
 
 class Songs(StartStop):
     def __init__(self, number_start, number_stop):
-        self.number = number
+        self.number_start = number_start
+        self.number_stop = number_stop
+
+        number_start = input("After how many songs do you want the music to start?")
+        number_stop = input("After how many songs do you want the music to stop?")
         pass
 
 def main():
@@ -55,7 +67,6 @@ def main():
 
     # call function asking for input about time, duration, or songs
     type = input("do you want to stop after time, duration, or songs?")
-        #time, duration, songs = stop_type(type)
     #try execept structure to check that the input is valid and one of our 3 options
     # do work with time
     if type == "time":

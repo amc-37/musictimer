@@ -18,11 +18,13 @@ def stop_type(inp):
     pass
     return t, d, s
 '''
-class StartStop(self, type):
+class StartStop(self, start, stop):
     """
-    ideas
+    inherited attributes of all subclasses: ability to start and stop music in spotify
     """
-    self.type = type
+    self.start = start
+    self.stop = stop
+    
     pass
 
 class Time(StartStop):

@@ -57,8 +57,13 @@ def main():
     #try execept structure to check that the input is valid and one of our 3 options
     # do work with time
     if type == "time":
-        Time.point() #this will invoke methods of telling passage of time and start and stop the music 
+        Time.point() #this will invoke methods of telling passage of time and start and stop the music
     # do work with duration
+    elif type == "duration":
+        Duration.length()
+    elif type == "songs":
+        Songs.number()
+    
 
     # do work with songs
 

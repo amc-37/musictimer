@@ -32,17 +32,19 @@ class StartStop:
         pass
 
 class Time(StartStop):
-    def __init__(self, point):
-        self.point = point
+    def __init__(self, point_start, point_stop):
+        self.point_start = point_start
+
+        point_start = input("what time do you want the music to start?")
         pass
 
 class Duration(StartStop):
-    def __init__(self, length):
+    def __init__(self, length_start, length_stop):
         self.length = length
         pass
 
 class Songs(StartStop):
-    def __init__(self, number):
+    def __init__(self, number_start, number_stop):
         self.number = number
         pass
 

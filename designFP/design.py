@@ -2,7 +2,7 @@
 import datetime
 
 def songs_path(inp):
-    """communicates with spotify, ask for input in the form of a url, and return
+    """given a link to a spotify playlist, communicates with spotify, ask for input in the form of a url, and return
     the path to a spotify playlist in the form of a list of songs in the playlist"""
     q = ''
     # ask for input in the form of a url playlist link, and check that this is valid

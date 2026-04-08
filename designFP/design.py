@@ -63,7 +63,7 @@ def main():
         Duration.length()
     elif type == "songs":
         Songs.number()
-    
+
 
     # do work with songs
 

@@ -18,23 +18,30 @@ def stop_type(inp):
     pass
     return t, d, s
 '''
-class StartStop(self, start, stop):
-    """
-    inherited attributes of all subclasses: ability to start and stop music in spotify
-    """
-    self.start = start
-    self.stop = stop
-    
-    pass
+class StartStop:
+    def __init__(self, start, stop):
+        """
+        inherited attributes of all subclasses:
+        ability to start and stop music in spotify
+
+        each subclass has own methods for tracking passage of time and
+        knowing when to invoke start stop function
+        """
+        self.start = start
+        self.stop = stop
+        pass
 
 class Time(StartStop):
-    pass
+    def __init__(self):
+        pass
 
 class Duration(StartStop):
-    pass
+    def __init__(self):
+        pass
 
 class Songs(StartStop):
-    pass
+    def __init__(self):
+        pass
 
 def main():
     # call function retrieving user input for spotify path to playlist
@@ -43,9 +50,11 @@ def main():
 
     # call function asking for input about time, duration, or songs
     type = input("do you want to stop after time, duration, or songs?")
-    time, duration, songs = stop_type(type)
+        #time, duration, songs = stop_type(type)
+    #try execept structure to check that the input is valid and one of our 3 options
     # do work with time
-
+    if type == "time":
+        Time.
     # do work with duration
 
     # do work with songs

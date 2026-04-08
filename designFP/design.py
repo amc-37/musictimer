@@ -2,13 +2,14 @@
 import datetime
 
 def songs_path(inp):
-    """given a link to a spotify playlist, communicates with spotify, ask for input in the form of a url, and return
-    the path to a spotify playlist in the form of a list of songs in the playlist"""
+    """given a link to a spotify playlist, communicates with spotify, and return
+    the path to a spotify playlist and its queue in the form of a list of songs in the playlist"""
+    path = ''
     q = ''
     # ask for input in the form of a url playlist link, and check that this is valid
     # for now, use radiohead.json to find path
     pass #maybe hard code this in for now
-    return q
+    return path, q
 
 def stop_type(inp):
     """given an input time, duration, or songs, determine either a time,
@@ -20,7 +21,7 @@ def stop_type(inp):
 def main():
     # call function retrieving user input for spotify path to playlist
     playlist = input("enter your playlist") # whatever we want
-    queue = songs_path(playlist)
+    playlist_path, queue = songs_path(playlist)
 
     # call function asking for input about time, duration, or songs
     type = input("do you want to stop after time, duration, or songs?")

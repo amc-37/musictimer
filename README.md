@@ -8,6 +8,7 @@ when you add something THEN
 
 in terminal do
 
+git add .
 git commit -m "change msg"
 git push
 
@@ -24,3 +25,6 @@ for to share
 IT WORKEDDDDDDDDDDDDDDDDDDDDDDDD
 YOOOOOOOOOOOOOOOOOOOOOOOO
 YAYA YAYAYAYAYAYAYAAY
+
+
+IT ACTUALLY REALLY WORKED HUZZAH

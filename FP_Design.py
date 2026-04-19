@@ -49,8 +49,14 @@ class Duration(StartStop):
 
         length_start = input("After how many minutes do you want the music to start?")
         length_stop = input("After how many minutes do you want the music to stop?")
-
         pass
+
+    def duration(start):
+        start = time.perf_counter()
+        # ... do something ...
+        duration = time.perf_counter() - start
+
+
 
 class Songs(StartStop):
     def __init__(self, number_start, number_stop):

@@ -8,8 +8,6 @@ load_dotenv()
 print("REDIRECT =", os.getenv("SPOTIPY_REDIRECT_URI"))
 
 sp = spotipy.Spotify(
-    print("CLIENT_ID:", os.getenv("SPOTIPY_CLIENT_ID"))
-    print("REDIRECT_URI:", repr(os.getenv("SPOTIPY_REDIRECT_URI")))
     auth_manager=SpotifyOAuth(
         client_id=os.getenv("SPOTIPY_CLIENT_ID"),
         client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),

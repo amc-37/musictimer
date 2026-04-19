@@ -18,11 +18,13 @@ def wait_then_stop(duration_seconds):
 
 def main():
 
-    min = int(input('please give a number of minutes'))
-    sec = min*60
-    print(sec)
+    min = int(input('please give a number of seconds'))
+    #sec = min*60
+    print(min)
 
-    wait_then_stop(sec)
+    wait_then_stop(min)
+
+    
 
 if __name__ == '__main__':
     main()

@@ -58,8 +58,6 @@ def stop_music():
     print("Music stopped")
 
 
-
-
 def main():
 
     min = int(input('please give a number of seconds'))

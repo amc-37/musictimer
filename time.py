@@ -57,6 +57,24 @@ def start_music():
 def stop_music():
     print("Music stopped")
 
+def run_until_time_loop(target_str, start_action, stop_action):
+    today = datetime.date.today()
+    target_time = datetime.datetime.strptime(target_str, "%H:%M").time()
+    target_dt = datetime.datetime.combine(today, target_time)
+
+    start_action()
+
+    while True:
+        now = datetime.datetime.now()
+        remaining = (target_dt - now).total_seconds()
+        if remaining <= 0:
+            break
+        # Optional progress display
+        # print(f"Remaining: {remaining:.0f} seconds", end="\r")
+        time.sleep(0.5)  # adjust granularity
+
+    stop_action()
+
 
 def main():
 
@@ -69,6 +87,10 @@ def main():
     time = f"{input('give a time in 24 hrs and min')}"
 
     run_until_time(time, start_music, stop_music)
+
+    time = f"{input('give a time in 24 hrs and min')}"
+
+    run_until_time_loop(time, start_music, stop_music)
 
 
 

@@ -70,7 +70,7 @@ def run_until_time_loop(target_str, start_action, stop_action):
         if remaining <= 0:
             break
         # Optional progress display
-        # print(f"Remaining: {remaining:.0f} seconds", end="\r")
+        print(f"Remaining: {remaining:.0f} seconds", end="\r")
         time.sleep(0.5)  # adjust granularity
 
     stop_action()

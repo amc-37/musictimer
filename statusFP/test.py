@@ -5,7 +5,8 @@ from spotipy.oauth2 import SpotifyOAuth
 
 load_dotenv()
 
-print("REDIRECT =", os.getenv("SPOTIPY_REDIRECT_URI"))
+print("CLIENT_ID:", os.getenv("SPOTIPY_CLIENT_ID"))
+print("REDIRECT_URI:", repr(os.getenv("SPOTIPY_REDIRECT_URI")))
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(

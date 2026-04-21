@@ -3,6 +3,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+import time
+import datetime
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 

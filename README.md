@@ -12,6 +12,8 @@ when you add something THEN
     git commit -m "change msg"
     git push
 
+    MAKE SURE TO DO THIS BOTH WITHIN THE FOLDER YOU'RE WORKING IN, AND IN THE WHOLE WORKSPACE TOO IF YOU'RE WORKING IN SEVERAL FILES
+
 
 **then other person does**
 

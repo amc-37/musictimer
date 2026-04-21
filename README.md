@@ -12,7 +12,7 @@ when you add something THEN
     git commit -m "change msg"
     git push
 
-    MAKE SURE TO DO THIS BOTH WITHIN THE FOLDER YOU'RE WORKING IN, AND IN THE WHOLE WORKSPACE TOO IF YOU'RE WORKING IN SEVERAL FILES
+    MAKE SURE TO DO THIS FOR EVERY FOLDER YOU'RE IN! Doing this only saves the stuff within your current 'cd' or location. So, if you edited something in statusFP and readme, save those separately! One in cd statusFP and one in cd /workspaces/musictimer/
 
 
 **then other person does**

@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-load_dotenv(dotenv_path="../.env") # it doesn't matter what folder .env file is in now
+from pathlib import Path
+load_dotenv(Path(__file__).resolve().parent.parent / ".env") # it doesn't matter what folder .env file is in now
 print("CLIENT_ID:", os.getenv("SPOTIPY_CLIENT_ID"))
 
 REDIRECT = "http://127.0.0.1:8888/callback"

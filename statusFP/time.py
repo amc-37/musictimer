@@ -78,17 +78,17 @@ def run_until_time_loop(target_str, start_action, stop_action):
 
 def main():
 
-    min = int(input('please give a number of seconds'))
+    min = int(input('please give a number of seconds: '))
     #sec = min*60
     print(min)
 
     wait_then_stop(min)
 
-    time = f"{input('give a time in 24 hrs and min')}"
+    time = f"{input('give a time in 24 hrs and min: ')}"
 
     run_until_time(time, start_music, stop_music)
 
-    time = f"{input('give a time in 24 hrs and min')}"
+    time = f"{input('give a time in 24 hrs and min: ')}"
 
     run_until_time_loop(time, start_music, stop_music)
 

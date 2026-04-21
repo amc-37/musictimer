@@ -1,11 +1,10 @@
 import os
-import time
-from datetime import datetime, timedelta
+from pathlib import Path
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 SCOPES = "user-modify-playback-state user-read-playback-state playlist-read-private"
 

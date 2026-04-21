@@ -1,5 +1,5 @@
 # musictimer
-integrate with Spotify to start and stop playing music after customizable numbers of songs, or starts at specific times
+integrate with Spotify to start and stop playing music after customizable numbers of songs, duration of time, or a specific time on the clock
 
 
 *INSTRUCTIONS FOR SHARING/UPDATING FILES*
@@ -18,6 +18,17 @@ when you add something THEN
 **then other person does**
 
     git pull
+
+------------------------------------------------------------------
+
+**THE MEAT OF OUR PROJECT**
+
+    Right now, our code is spread out across several files as we figure out how the two most important components of our project can work: the connection with spotify and the use of time libraries to track the passage of time.
+
+    What to run so far:
+        you can connect to spotify using connect.py!
+        you can try different time inputs in time.py!
+
 
 -------------------------------------------
 
@@ -114,12 +125,5 @@ when you add something THEN
 
 ------------------------------------------------------------------
 
-**THE MEAT OF OUR PROJECT**
-
-    Right now, our code is spread out across several files as we figure out how the two most important components of our project can work: the connection with spotify and the use of time libraries.
-
-    What to run so far:
-        you can connect to spotify using connect.py!
-        you can try different time inputs in time.py!
 
 

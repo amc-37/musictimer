@@ -1,5 +1,5 @@
 import os
-from pathlib import Path
+from pathlib import Path # this is for checking that a path exists
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth

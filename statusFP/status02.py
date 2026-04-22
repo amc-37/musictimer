@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
 
-print("ENV PATH:", env_path)
+print("ENV PATH:", env_path)=
 print("ENV EXISTS:", env_path.exists())
 
 load_dotenv(dotenv_path=env_path, override=True)

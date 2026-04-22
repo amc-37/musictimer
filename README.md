@@ -20,6 +20,12 @@ when you add something THEN
     git pull
 
 ------------------------------------------------------------------
+
+# **THE MEAT OF OUR PROJECT**
+
+    IS ON STATUS02.PY
+
+
 # Spotify Music Timer – Setup Guide
 
 This guide explains how to run the project locally so it can control Spotify playback (start/stop) using the Spotify Web API.
@@ -284,19 +290,7 @@ chmod +x setup.sh
 If authentication works, the rest of the project (playlist + timer logic) will run correctly.
 ------------------------------------------------
 
-**THE MEAT OF OUR PROJECT**
-
-    Right now, our code is spread out across several files as we figure out how the two most important components of our project can work: the connection with spotify and the use of time libraries to track the passage of time.
-
-    What to run so far:
-        you can connect to spotify using connect.py!
-        you can try different time inputs in time.py!
-
-
--------------------------------------------
-
-
-**REPOSITORY GUIDE**
+# **REPOSITORY GUIDE**
 
 *Folder: designFP*
 
@@ -325,16 +319,20 @@ If authentication works, the rest of the project (playlist + timer logic) will r
 
 **connect.py**
 
-    FILL THIS IN
+    here we have our successful connection!
 
-**test.py**
+**test_connection01.py**
 
     here, we are working back and forth with Harvard's AI sandbox to figure out how to connect to the Spotify API
     In this file, we simply try to form a connection with spotify
 
-**test2.py**
+**test_connection02.py**
 
-    same as test.py -- part of our back and forth with the AI Sandbox
+    same as test_connection01.py -- part of our back and forth with the AI Sandbox
+
+**test_connection03.py**
+
+     same as test_connection01.py -- part of our back and forth with the AI Sandbox
 
 **time.py**
 

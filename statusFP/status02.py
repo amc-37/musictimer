@@ -6,7 +6,15 @@ from spotipy.oauth2 import SpotifyOAuth
 import time
 from datetime import datetime, timedelta
 
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+env_path = Path(__file__).resolve().parent.parent / ".env"
+
+print("ENV PATH:", env_path)
+print("ENV EXISTS:", env_path.exists())
+
+load_dotenv(dotenv_path=env_path, override=True)
+
+print("CLIENT_ID:", os.getenv("SPOTIPY_CLIENT_ID"))
+print("CLIENT_SECRET EXISTS:", os.getenv("SPOTIPY_CLIENT_SECRET") is not None)
 
 SCOPES = "user-modify-playback-state user-read-playback-state playlist-read-private"
 

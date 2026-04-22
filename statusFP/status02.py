@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
 
-print("ENV PATH:", env_path)=
+print("ENV PATH:", env_path)
 print("ENV EXISTS:", env_path.exists())
 
 load_dotenv(dotenv_path=env_path, override=True)
@@ -71,6 +71,7 @@ def stop_at_clock_time(sp, device_id, stop_time_str):
 
     time.sleep(seconds) # wait allotted time
     pause(sp, device_id)
+    print("Music stopped")
 
 def main():
     sp = get_spotify_client()

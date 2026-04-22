@@ -87,7 +87,7 @@ def stop_at_clock_time(sp, device_id, stop_time_str):
 
 def main():
     sp = get_spotify_client()
-    print(f"sp={sp}") # test to check what form 
+    print(f"sp={sp}")
     playlist = input("Playlist URL or URI: ").strip()
     print("Connected to Spotify!")
     mode = input("Stop mode (duration/time): ").strip().lower()

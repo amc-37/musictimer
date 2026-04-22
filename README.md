@@ -125,5 +125,267 @@ when you add something THEN
 
 ------------------------------------------------------------------
 
+# Spotify Music Timer – Setup Guide
+
+This guide explains how to run the project locally so it can control Spotify playback (start/stop) using the Spotify Web API.
+
+---
+
+## Overview
+
+This project:
+
+* Connects to Spotify using OAuth
+* Starts playback of a playlist
+* Stops playback based on time or duration
+
+⚠️ Important: This must be run **locally on your laptop**, not in GitHub Codespaces or a remote server.
+
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/amc-37/musictimer.git
+cd musictimer
+```
+
+If prompted to log in:
+
+```bash
+gh auth login
+```
+
+---
+
+## 2. Install Python + Virtual Environment
+
+Check Python:
+
+```bash
+python3 --version
+```
+
+If `venv` is missing (Linux/Ubuntu):
+
+```bash
+sudo apt update
+sudo apt install python3-venv
+```
+
+Create and activate virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+---
+
+## 3. Install Dependencies
+
+```bash
+pip install spotipy python-dotenv
+```
+
+---
+
+## 4. Create a Spotify Developer App
+
+Go to:
+[https://developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
+
+Click **Create App** and fill in:
+
+* **App Name:** anything (e.g. "Music Timer")
+* **API:** Web API
+
+Then go to **Settings → Redirect URIs** and add:
+
+```text
+http://127.0.0.1:8888/callback
+```
+
+Save.
+
+---
+
+## 5. Create `.env` File
+
+In the root of the repo (`musictimer/`), create a file named `.env`:
+
+```env
+SPOTIPY_CLIENT_ID=your_client_id_here
+SPOTIPY_CLIENT_SECRET=your_client_secret_here
+SPOTIPY_REDIRECT_URI=http://127.0.0.1:8888/callback
+```
+
+⚠️ Rules:
+
+* No quotes
+* No spaces around `=`
+* Must match redirect URI exactly
+
+---
+
+## 6. Ensure `.env` is Loaded Correctly
+
+If running scripts inside `statusFP/`, make sure the code loads the root `.env`:
+
+```python
+from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+```
+
+---
+
+## 7. Test Spotify Authentication
+
+Create `statusFP/test.py`:
+
+```python
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
+print("CLIENT_ID:", os.getenv("SPOTIPY_CLIENT_ID"))
+print("REDIRECT_URI:", os.getenv("SPOTIPY_REDIRECT_URI"))
+
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        client_id=os.getenv("SPOTIPY_CLIENT_ID"),
+        client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
+        redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
+        scope="user-read-email",
+        open_browser=True,
+    )
+)
+
+print(sp.current_user())
+```
+
+Run it:
+
+```bash
+cd statusFP
+python3 test.py
+```
+
+Expected:
+
+1. Browser opens
+2. Log into Spotify
+3. Redirect occurs
+4. Terminal prints your user info
+
+---
+
+## 8. Run the Main Program
+
+After auth works:
+
+```bash
+python3 your_main_script.py
+```
+
+---
+
+## 9. Common Errors
+
+### `No client_id`
+
+* `.env` not found or not loaded
+
+### `redirect_uri: Not matching configuration`
+
+* Mismatch between `.env` and Spotify dashboard
+
+### `127.0.0.1 refused to connect`
+
+* Running in Codespaces instead of local machine
+
+### `repo not found`
+
+* Wrong repo name or no access permissions
+
+---
+
+## 10. Important Notes
+
+* Do NOT commit `.env` to GitHub
+* Each user can create their own Spotify app OR share one
+* Must use **Spotify Premium** for playback control
+
+---
+
+## 11. One-Command Setup (Recommended)
+
+You can automate most of the setup with one command.
+
+### Create setup script
+
+In the root of the repo, create a file:
+
+```bash
+nano setup.sh
+```
+
+Paste this:
+
+```bash
+#!/usr/bin/env bash
+
+set -e
+
+echo "Setting up Spotify Music Timer..."
+
+# Install venv if missing (Linux/Ubuntu)
+if ! python3 -m venv --help > /dev/null 2>&1; then
+  echo "Installing python3-venv..."
+  sudo apt update
+  sudo apt install -y python3-venv
+fi
+
+# Create virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install --upgrade pip
+pip install spotipy python-dotenv
+
+echo "
+Setup complete."
+echo "Next steps:"
+echo "1. Create a .env file with your Spotify credentials"
+echo "2. Run: source .venv/bin/activate"
+echo "3. Run: python3 statusFP/test.py"
+```
+
+Save and exit (`Ctrl+O`, Enter, `Ctrl+X`).
+
+### Make it executable
+
+```bash
+chmod +x setup.sh
+```
+
+### Run it
+
+```bash
+./setup.sh
+```
+
+---
+
+## Done
+
+If authentication works, the rest of the project (playlist + timer logic) will run correctly.
 
 

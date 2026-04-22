@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import time
-import datetime
+from datetime import datetime, timedelta
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 

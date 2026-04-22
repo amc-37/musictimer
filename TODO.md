@@ -9,4 +9,5 @@
 # IDEAS
 [] functionality for unpausing
 [] start/stop after number of songs
-[] have program pick selection of songs to near-exactly match time 
+[] have program pick selection of songs to near-exactly match time entered
+[] 

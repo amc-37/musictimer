@@ -2,9 +2,9 @@ import os
 from pathlib import Path # this is for checking that a path exists
 from dotenv import load_dotenv
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth # authorize path to spotify
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta # timing logistics
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
 

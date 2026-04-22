@@ -2,7 +2,7 @@
 integrate with Spotify to start and stop playing music after customizable numbers of songs, duration of time, or a specific time on the clock
 
 
-*INSTRUCTIONS FOR SHARING/UPDATING FILES*
+# *INSTRUCTIONS FOR SHARING/UPDATING FILES*
 
 when you add something THEN
 

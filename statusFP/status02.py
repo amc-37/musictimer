@@ -58,7 +58,7 @@ def stop_at_clock_time(sp, device_id, stop_time_str):
     seconds = (stop_dt - now).total_seconds()
     # Compute seconds until target
     seconds_to_target = (stop_dt - now).total_seconds()
-    print(f"Will stop in {seconds_to_target:.0f} seconds (at {target_dt.time()}).")
+    print(f"Will stop in {seconds_to_target:.0f} seconds (at {stop_dt.time()}).")
     time.sleep(seconds)
     pause(sp, device_id)
 

@@ -1,6 +1,6 @@
 import os
 from pathlib import Path # this is for checking that a path exists
-from dotenv import load_dotenv
+from dotenv import load_dotenv # deal with .env file
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth # authorize path to spotify
 import time
@@ -11,7 +11,7 @@ env_path = Path(__file__).resolve().parent.parent / ".env"
 print("ENV PATH:", env_path)
 print("ENV EXISTS:", env_path.exists())
 
-load_dotenv(dotenv_path=env_path, override=True)
+load_dotenv(dotenv_path=env_path, override=True) # get client id, secret, redirect URI from .env
 
 print("CLIENT_ID:", os.getenv("SPOTIPY_CLIENT_ID"))
 print("CLIENT_SECRET EXISTS:", os.getenv("SPOTIPY_CLIENT_SECRET") is not None)

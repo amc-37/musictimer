@@ -25,9 +25,9 @@ SCOPES = "user-modify-playback-state user-read-playback-state playlist-read-priv
 def get_spotify_client():
     '''takes no arguments but uses client id, client
     secret, and redirect URI to return what is later
-    called sp- this is in the form of of an object
-    containing the following information about the
-    client's spotify connection'''
+    called sp- this is in the form of an object
+    containing information about the client's spotify
+    playlist and connection'''
     return spotipy.Spotify(
         auth_manager=SpotifyOAuth(
             client_id=os.getenv("SPOTIPY_CLIENT_ID"),

@@ -23,7 +23,12 @@ SCOPES = "user-modify-playback-state user-read-playback-state playlist-read-priv
 
 # use path to .env to get retrieve spotify info from .env and use this to communicate with spotify
 def get_spotify_client():
-    return spotipy.Spotify( # returns what is later called sp- this is in the form of
+    '''takes no arguments but uses client id, client
+    secret, and redirect URI to return what is later
+    called sp- this is in the form of of an object
+    containing the following information about the
+    client's spotify connection'''
+    return spotipy.Spotify(
         auth_manager=SpotifyOAuth(
             client_id=os.getenv("SPOTIPY_CLIENT_ID"),
             client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
@@ -82,6 +87,7 @@ def stop_at_clock_time(sp, device_id, stop_time_str):
 
 def main():
     sp = get_spotify_client()
+    print(f"sp={sp}")
     playlist = input("Playlist URL or URI: ").strip()
     print("Connected to Spotify!")
     mode = input("Stop mode (duration/time): ").strip().lower()

@@ -23,7 +23,7 @@ SCOPES = "user-modify-playback-state user-read-playback-state playlist-read-priv
 
 # use path to .env to get retrieve spotify info from .env and use this to communicate with spotify
 def get_spotify_client():
-    return spotipy.Spotify(
+    return spotipy.Spotify( # returns what is later called sp- this is in the form of
         auth_manager=SpotifyOAuth(
             client_id=os.getenv("SPOTIPY_CLIENT_ID"),
             client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
@@ -34,7 +34,7 @@ def get_spotify_client():
     )
 
 # connect with device playing spotify
-def get_active_device(sp):
+def get_active_device(sp): # sp = the object that get_spotify_client returns
     devices = sp.devices()["devices"]
     for d in devices:
         if d["is_active"]:

@@ -1,4 +1,4 @@
-# TODO
+# TODO Status FP
 [x] fix readme
 [] add comments to code about how it works
 [x] make connection work
@@ -7,7 +7,8 @@
 [] make video
 
 # IDEAS
-[] functionality for unpausing
+[] unpause/pause music where left off
 [] start/stop after number of songs
 [] have program pick selection of songs to near-exactly fill play time entered
-[] 
+[] given x time to play, check if playlist < x time and suggest repeating playlist or playing another playlist
+[] support for songs on repeat

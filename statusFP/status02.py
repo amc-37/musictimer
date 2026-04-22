@@ -8,16 +8,20 @@ from datetime import datetime, timedelta # timing logistics
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
 
+# tests to check that path to .env exists
 print("ENV PATH:", env_path)
 print("ENV EXISTS:", env_path.exists())
 
+# .env contains important path info for spotify API
 load_dotenv(dotenv_path=env_path, override=True) # get client id, secret, redirect URI from .env
 
+# tests to check that info from .env can be retrieved
 print("CLIENT_ID:", os.getenv("SPOTIPY_CLIENT_ID"))
 print("CLIENT_SECRET EXISTS:", os.getenv("SPOTIPY_CLIENT_SECRET") is not None)
 
 SCOPES = "user-modify-playback-state user-read-playback-state playlist-read-private"
 
+# use path to .env to get retrieve spotify info from .env and use this to communicate with spotify
 def get_spotify_client():
     return spotipy.Spotify(
         auth_manager=SpotifyOAuth(
@@ -29,6 +33,7 @@ def get_spotify_client():
         )
     )
 
+# connect with device playing spotify
 def get_active_device(sp):
     devices = sp.devices()["devices"]
     for d in devices:
@@ -38,6 +43,7 @@ def get_active_device(sp):
         return devices[0]["id"]
     raise RuntimeError("No Spotify devices available.")
 
+# get playlist info (path) from user
 def extract_playlist_uri(playlist_url_or_uri):
     if "playlist/" in playlist_url_or_uri:
         playlist_id = playlist_url_or_uri.split("playlist/")[1].split("?")[0]
@@ -46,6 +52,7 @@ def extract_playlist_uri(playlist_url_or_uri):
         return playlist_url_or_uri
     raise ValueError("Invalid playlist link or URI.")
 
+# start playback is a sp
 def start_playlist(sp, playlist_uri, device_id):
     sp.start_playback(device_id=device_id, context_uri=playlist_uri)
 

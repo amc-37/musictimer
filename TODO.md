@@ -7,7 +7,7 @@
 [] make video
 
 # IDEAS
-[] fix pause bug
+[x] fix pause bug
 [] unpause/pause music where left off
 [] start/stop after number of songs
 [] have program pick selection of songs to near-exactly fill play time entered

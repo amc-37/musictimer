@@ -1,6 +1,6 @@
 # TODO Status FP
 [x] fix readme
-[] add comments to code about how it works
+[x] add comments to code about how it works
 [x] make connection work
 [x] combine connection file stuff and time stuff
 [x] test code

@@ -40,7 +40,7 @@ This project:
 * Starts playback of a playlist
 * Stops playback based on time or duration
 
-⚠️ Important: This must be run **locally on your laptop**, not in GitHub Codespaces or a remote server.
+Important: This must be run **locally on your laptop**, not in GitHub Codespaces or a remote server.
 
 ---
 
@@ -121,7 +121,7 @@ SPOTIPY_CLIENT_SECRET=your_client_secret_here
 SPOTIPY_REDIRECT_URI=http://127.0.0.1:8888/callback
 ```
 
-⚠️ Rules:
+Rules:
 
 * No quotes
 * No spaces around `=`

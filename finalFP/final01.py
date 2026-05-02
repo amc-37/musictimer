@@ -88,17 +88,32 @@ def stop_at_clock_time(sp, device_id, stop_time_str):
     print("Music stopped")
 
 def main():
-    sp = get_spotify_client()
-    print("Connected to Spotify!")
+    try:
+        sp = get_spotify_client()
+        print("got spotify client.")
 
-    playlist = input("Playlist URL or URI: ").strip()
-    playlist_uri = extract_playlist_uri(playlist)
-    print("Valid Spotify playlist detected.")
+        playlist = input("Playlist URL or URI: ").strip()
+        playlist_uri = extract_playlist_uri(playlist)
+        print("Valid Spotify playlist detected.")
 
-    mode = input("Stop mode (duration/time): ").strip().lower()
-    device_id = get_active_device(sp)
+        mode = input("Stop mode (duration/time): ").strip().lower()
+        device_id = get_active_device(sp)
 
-    start_playlist(sp, playlist_uri, device_id)
+        start_playlist(sp, playlist_uri, device_id)
+
+        if mode == "duration":
+            minutes = int(input("Stop after how many minutes? "))
+            stop_after_duration(sp, device_id, minutes)
+        elif mode == "time":
+            stop_time = input("Stop at what time? (HH:MM 24h) ")
+            stop_at_clock_time(sp, device_id, stop_time)
+        else:
+            print("Songs mode needs track-progress logic and is harder to do reliably.")
+
+    except ValueError as e:
+        print(f"Input error: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
 
     if mode == "duration":
         minutes = int(input("Stop after how many minutes? "))

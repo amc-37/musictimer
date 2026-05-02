@@ -310,6 +310,20 @@ If authentication works, the rest of the project (playlist + timer logic) will r
 
     example json file gotten from Spotify to begin understanding how to connect to specific songs and albums
 
+*Folder: finalFP*
+
+**changes.txt**
+
+    a version control document for working with chat-gpt, which Avi asked the model to update with specification, implementation, variable names, and structural changes when making changes so that it could refer to something simpler and more helpful than an entire codebase when helping with code changes. we prompted the model to update this document with every major structural change- this reduced our compute time.
+
+**final01.py**
+
+    a basic test for link authentification, using a try/except structure
+
+**final02.py**
+
+    a second test for better link authentification, supporting more kinds of spotify links and rejecting anything not playable
+
 *Folder: statusFP*
 
 **status01.py**

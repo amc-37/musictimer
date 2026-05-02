@@ -228,33 +228,332 @@ SUMMARY OF MOST IMPORTANT CHANGES
 - Keep all environment loading and path logic explicit.
 - Make final01.py easier to read, test, and extend.
 
-========================================================================
+================================================================================
 
-UPDATED: 2026-05-02T03:43:30.193367
+CHANGES AND CURRENT SPECIFICATION FOR final03.py
 
-=== FINAL02 CHANGES ===
+This document summarizes the current program specification and the essential structural decisions up through final03.py. It is intended to serve as a clean version-control reference for the state of the project.
 
-STRUCTURAL CHANGES: - Added input validation loop: program repeatedly
-prompts user until valid Spotify resource is provided. - Introduced
-unified resource parser supporting: - playlist - album - artist -
-track - episode - Added validation step using Spotify API before
-playback begins. - Separated parsing and validation logic from playback
-logic. - Playback logic now branches based on resource type: - context
-playback (playlist/album/artist) - single playback (track/episode)
+CURRENT PROGRAM PURPOSE
 
-VARIABLE NAME CHANGES: - playlist -> resource_input (generalized) -
-playlist_uri -> resource_uri - extract_playlist_uri ->
-extract_spotify_resource - start_playlist -> start_playback_context -
-Added: - resource_type - is_valid_resource
+The program connects to Spotify through the Spotipy API, asks the user for a playable Spotify resource, starts or resumes playback on an available Spotify device, and pauses playback either after a selected duration or at a specified clock time.
 
-INPUT CHANGES: - Accepts any Spotify playable URL or URI - Rejects: -
-non-Spotify links - unsupported Spotify links - Prompts user repeatedly
-until valid input
+The program now supports smart playback behavior:
+- If the requested Spotify resource is already the current playback target and Spotify is already playing it, the program leaves playback alone.
+- If the requested Spotify resource matches the current playback target but playback is paused, the program resumes from the user's current playback position instead of restarting the song or context.
+- If nothing is currently playing, or if the user is currently playing something different, the requested Spotify resource starts from the beginning.
 
-OUTPUT CHANGES: - Clear validation feedback: - “Invalid Spotify link” -
-“Unsupported resource type” - Confirmation messages: - “Connected to
-Spotify” - “Valid Spotify resource detected”
+SUPPORTED PLAYABLE INPUTS
 
-BEHAVIORAL CHANGES: - Program no longer crashes on invalid input -
-Program ensures playable queue exists before playback - Improved user
-interaction loop
+The program accepts any Spotify resource that can reasonably start playback or create a playable queue:
+- playlist links and URIs
+- album links and URIs
+- artist links and URIs
+- track links and URIs
+- episode links and URIs
+
+The program rejects:
+- non-Spotify links
+- malformed Spotify links
+- unsupported Spotify resource types
+- empty input
+- Spotify resources that cannot be validated through the API
+
+ENVIRONMENT AND AUTHENTICATION
+
+The program loads environment variables from a .env file. It first looks in the same directory as the script and then falls back to the parent directory. Required environment variables are:
+- SPOTIPY_CLIENT_ID
+- SPOTIPY_CLIENT_SECRET
+- SPOTIPY_REDIRECT_URI
+
+Spotify authentication is handled through SpotifyOAuth.
+
+CURRENT IMPORTS
+
+- os
+- re
+- time
+- datetime / timedelta
+- pathlib.Path
+- urllib.parse.urlparse
+- spotipy
+- dotenv.load_dotenv
+- spotipy.oauth2.SpotifyOAuth
+
+CURRENT CONSTANTS
+
+- SCOPES
+  Current value includes:
+  - user-modify-playback-state
+  - user-read-playback-state
+  - playlist-read-private
+
+- PLAYABLE_CONTEXT_TYPES
+  - playlist
+  - album
+  - artist
+
+- PLAYABLE_URI_TYPES
+  - track
+  - episode
+
+- SUPPORTED_TYPES
+  Union of context and single-item playable types.
+
+CURRENT VARIABLES AND THEIR ROLES
+
+- env_path
+  Resolved path to the .env file.
+
+- spotify_client
+  Authenticated Spotify client object.
+
+- playback_target
+  Dictionary describing the validated target resource.
+  Keys:
+  - kind: context or uris
+  - resource_type: playlist, album, artist, track, or episode
+  - uri: normalized Spotify URI
+  - display_name: readable name for printing
+
+- device_id
+  ID of the active or selected Spotify playback device.
+
+- stop_mode
+  User-selected stop mode: duration or time.
+
+- duration_minutes
+  Positive numeric duration until pause.
+
+- stop_time_input
+  User-entered HH:MM 24-hour stop time.
+
+- current_datetime
+  Current datetime used in time scheduling.
+
+- stop_datetime
+  Computed datetime when playback should pause.
+
+- sleep_seconds
+  Number of seconds to wait before pausing.
+
+- playback_state
+  Dictionary summarizing current Spotify playback visibility.
+  Keys:
+  - is_playing
+  - progress_ms
+  - item_uri
+  - context_uri
+  - device_id
+  - raw
+
+- playback_action
+  String describing what the program decided to do:
+  - already_playing
+  - resumed
+  - started_fresh
+
+MAJOR STRUCTURAL CHANGES ACROSS VERSIONS
+
+1. Environment loading was made explicit and stable.
+   - Earlier versions depended on the working directory.
+   - Current version resolves the .env path deliberately.
+
+2. Playback input handling was generalized.
+   - Earlier versions only accepted playlist links.
+   - Current version accepts multiple playable Spotify resource types.
+
+3. Input validation was moved into a prompt loop.
+   - The program now reprompts until the user enters a valid playable Spotify resource.
+
+4. Parsing and validation were separated.
+   - One layer parses the URL or URI.
+   - Another layer confirms the resource exists and is playable through Spotify.
+
+5. Playback logic was separated from validation logic.
+   - Validation returns a normalized playback target.
+   - Playback functions operate on that target.
+
+6. Current playback inspection was added.
+   - The program now checks Spotify's current playback state before deciding how to start playback.
+   - This confirms that the API exposes the user's current playback position through progress_ms and item/context metadata.
+
+7. Smart start/resume behavior replaced always-restart behavior.
+   - Matching current playback + already playing -> do nothing.
+   - Matching current playback + paused -> resume current position.
+   - No playback or different playback -> start requested target from beginning.
+
+8. Time scheduling was simplified.
+   - Duplicate timing variables from earlier drafts were removed.
+   - The program now uses one computed sleep_seconds value.
+
+9. User interaction was kept mostly inside prompt and main functions.
+   - Helper functions focus on parsing, Spotify API calls, and scheduling logic.
+
+IMPORTANT VARIABLE NAME CHANGES FROM EARLIER DESIGNS
+
+- sp -> spotify_client
+- playlist / playlist_input -> playback_target or playable_input depending on stage
+- playlist_uri / resource_uri -> uri inside playback_target
+- extract_playlist_uri / extract_spotify_resource -> parse_spotify_input + validate_playable_input
+- start_playlist / start_playback_context -> ensure_requested_playback
+- mode -> stop_mode
+- minutes -> duration_minutes
+- stop_time / stop_time_str -> stop_time_input
+- now -> current_datetime
+- stop_dt -> stop_datetime
+- seconds / seconds_to_target -> sleep_seconds
+
+CURRENT FUNCTION LIST AND I/O
+
+1. get_spotify_client()
+   Input:
+   - no direct user input
+   - reads Spotify credentials from environment variables
+   Output:
+   - authenticated Spotify client
+
+2. get_available_device_id(spotify_client)
+   Input:
+   - spotify_client
+   Output:
+   - active or fallback device ID
+   - raises RuntimeError if no devices are available
+
+3. parse_spotify_input(playable_input)
+   Input:
+   - raw user string containing a Spotify URL or URI
+   Output:
+   - resource_type, resource_id
+   - raises ValueError on invalid or unsupported input
+
+4. validate_playable_input(spotify_client, playable_input)
+   Input:
+   - spotify_client
+   - raw user string
+   Output:
+   - normalized playback_target dictionary
+   - raises ValueError or SpotifyException if the target is unusable
+
+5. prompt_for_playable_input(spotify_client)
+   Input:
+   - repeated user input from stdin
+   Output:
+   - validated playback_target dictionary
+
+6. get_current_playback_state(spotify_client)
+   Input:
+   - spotify_client
+   Output:
+   - playback_state dictionary or None
+   - confirms visibility into current playback position and context/item metadata
+
+7. describe_current_playback(playback_state)
+   Input:
+   - playback_state dictionary or None
+   Output:
+   - printable status message describing current playback visibility
+
+8. playback_matches_target(playback_target, playback_state)
+   Input:
+   - validated playback_target
+   - current playback_state
+   Output:
+   - True if current playback already matches the requested resource
+   - False otherwise
+
+9. ensure_requested_playback(spotify_client, playback_target, device_id)
+   Input:
+   - spotify_client
+   - playback_target
+   - device_id
+   Output:
+   - one of: already_playing, resumed, started_fresh
+   - may call Spotify playback APIs
+
+10. pause(spotify_client, device_id)
+   Input:
+   - spotify_client
+   - device_id
+   Output:
+   - pauses playback
+
+11. stop_after_duration(spotify_client, device_id, duration_minutes)
+   Input:
+   - spotify_client
+   - device_id
+   - positive numeric duration
+   Output:
+   - sleeps and pauses playback
+
+12. stop_at_clock_time(spotify_client, device_id, stop_time_input)
+   Input:
+   - spotify_client
+   - device_id
+   - HH:MM string
+   Output:
+   - computes next matching wall-clock time, sleeps, then pauses playback
+
+13. prompt_for_stop_mode()
+   Input:
+   - repeated stdin input
+   Output:
+   - validated stop mode string
+
+14. prompt_for_duration_minutes()
+   Input:
+   - repeated stdin input
+   Output:
+   - validated positive float
+
+15. prompt_for_stop_time()
+   Input:
+   - repeated stdin input
+   Output:
+   - validated HH:MM string
+
+16. main()
+   Input:
+   - playable Spotify resource
+   - stop mode
+   - either duration or stop time
+   Output:
+   - status messages
+   - playback control actions
+   - pause scheduling
+
+CURRENT USER INPUTS
+
+- Spotify playable link or URI
+- Stop mode: duration or time
+- If duration: number of minutes
+- If time: stop time in HH:MM 24-hour format
+
+CURRENT USER-VISIBLE OUTPUTS
+
+- Spotify authentication browser flow
+- validation messages for Spotify resource input
+- status messages describing current playback visibility
+- messages stating whether playback was already active, resumed, or started fresh
+- stop scheduling messages
+- final pause confirmation
+- readable runtime or API error messages
+
+ESSENTIAL BEHAVIORAL RULES IN final03.py
+
+1. Spotify authentication success is separate from playback-target validation.
+2. Input is reprompted until the user provides a valid playable Spotify resource.
+3. The program checks current playback visibility before deciding how to act.
+4. Matching paused playback resumes from the current position.
+5. Matching already-playing playback is left alone.
+6. Different playback or no playback starts the requested target from the beginning.
+7. Stop mode input is validated.
+8. Duration and time inputs are validated.
+9. Helper functions avoid mixing too much user interaction with Spotify API logic.
+
+SUMMARY OF ESSENTIAL EVOLUTION
+
+- Initial design focused on playlists only.
+- final01 clarified naming, validation goals, and control flow.
+- final02 generalized the input model to playable Spotify resources and added reprompt validation.
+- final03 adds playback-state awareness so the program can continue or resume existing matching playback instead of always restarting.

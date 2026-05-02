@@ -91,8 +91,12 @@ def main():
     sp = get_spotify_client()
     print(f"sp={sp}")
 
-    playlist = input("Playlist URL or URI: ").strip()
-    print("Connected to Spotify!")
+    while True:
+        playlist = input("Playlist URL or URI: ").strip()
+        if 'spotify.com' in playlist:
+            print("Connected to Spotify!")
+        else:
+            break
 
 
 

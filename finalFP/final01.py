@@ -95,8 +95,7 @@ def main():
         playlist = input("Playlist URL or URI: ").strip()
         if 'spotify.com' in playlist:
             print("Connected to Spotify!")
-        else:
-            break
+        break
 
 
 

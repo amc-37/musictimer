@@ -1,0 +1,229 @@
+CHANGES FOR final01.py
+
+This document records the current specification and implementation of the musictimer program and then lists the major changes made while transferring the code into final01.py.
+
+CURRENT FILE DESCRIPTION (based on the current working version, status02.py)
+
+Purpose:
+The current file connects to Spotify through the Spotipy API, accepts a Spotify playlist URL or URI from the user, starts playback on the active Spotify device, and stops playback either after a duration or at a specific clock time.
+
+Current implementation summary:
+1. Environment variables are loaded from the repository root .env file.
+2. Spotify authentication is handled through SpotifyOAuth.
+3. The program checks for an active device and falls back to the first available device if none is currently active.
+4. The playlist input is converted into a Spotify playlist URI.
+5. Playback starts immediately after device and playlist validation.
+6. Stop logic is handled in one of two ways:
+   - stop after a given number of minutes
+   - stop at a given wall-clock time in HH:MM format
+
+Current imported modules:
+- os
+- pathlib.Path
+- dotenv.load_dotenv
+- spotipy
+- spotipy.oauth2.SpotifyOAuth
+- time
+- datetime / timedelta
+
+Current variables and names:
+- SCOPES: Spotify permission scope string
+- sp: Spotify client object
+- playlist: raw user input for playlist URL or URI
+- playlist_uri: normalized Spotify playlist URI
+- device_id: ID of the active or selected playback device
+- mode: user-selected stop mode, such as "duration" or "time"
+- minutes: number of minutes until playback should stop
+- stop_time: user-entered stop time in HH:MM format
+- now: current datetime at runtime
+- stop_dt: computed datetime for stopping playback
+- seconds: number of seconds to wait before stopping
+- seconds_to_target: duplicate computation of time-until-stop used for printing
+
+Current functions and I/O:
+
+1. get_spotify_client()
+   Input:
+   - no direct user input
+   - reads SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, and SPOTIPY_REDIRECT_URI from the environment
+   Output:
+   - returns an authenticated spotipy.Spotify client
+
+2. get_active_device(sp)
+   Input:
+   - sp: authenticated Spotify client
+   Output:
+   - returns a Spotify device_id string
+   - raises RuntimeError if no devices are available
+
+3. extract_playlist_uri(playlist_url_or_uri)
+   Input:
+   - a Spotify playlist URL or Spotify playlist URI string
+   Output:
+   - returns a normalized Spotify playlist URI in the form spotify:playlist:<id>
+   - raises ValueError if the input is not recognized as a playlist URL or URI
+
+4. start_playlist(sp, playlist_uri, device_id)
+   Input:
+   - sp: authenticated Spotify client
+   - playlist_uri: Spotify playlist URI
+   - device_id: playback device ID
+   Output:
+   - starts Spotify playback on the target device
+   - no explicit return value
+
+5. pause(sp, device_id)
+   Input:
+   - sp: authenticated Spotify client
+   - device_id: playback device ID
+   Output:
+   - pauses Spotify playback
+   - no explicit return value
+
+6. stop_after_duration(sp, device_id, minutes)
+   Input:
+   - sp: authenticated Spotify client
+   - device_id: playback device ID
+   - minutes: integer or numeric duration in minutes
+   Output:
+   - waits for the specified amount of time and then pauses playback
+   - no explicit return value
+
+7. stop_at_clock_time(sp, device_id, stop_time_str)
+   Input:
+   - sp: authenticated Spotify client
+   - device_id: playback device ID
+   - stop_time_str: string in HH:MM format
+   Output:
+   - computes the next matching clock time, sleeps until then, and pauses playback
+   - prints the seconds until stop and the target stop time
+   - no explicit return value
+
+8. main()
+   Input:
+   - playlist URL or URI from stdin
+   - stop mode from stdin
+   - either a duration in minutes or a stop time in HH:MM from stdin
+   Output:
+   - prints connection and status messages
+   - starts and later pauses Spotify playback
+   - no explicit return value
+
+Current user inputs:
+- Playlist URL or URI
+- Stop mode: duration or time
+- If duration: number of minutes
+- If time: stop time in HH:MM 24-hour format
+
+Current user-visible outputs:
+- Spotify authentication browser flow
+- "Connected to Spotify!"
+- Prompt messages for playlist and mode
+- A countdown-style message such as "Will stop in X seconds (at HH:MM:SS)."
+- Error traces if authentication, input parsing, or device lookup fails
+
+MAJOR STRUCTURAL CHANGES FOR final01.py
+
+1. Clarify program flow in main()
+   - Keep authentication, playlist validation, device selection, playback start, and stop scheduling as separate logical stages.
+   - Move success messages so they reflect the actual stage completed.
+   - Example: print Spotify connection success after authentication, and playlist validation success only after the playlist input has been checked.
+
+2. Add explicit error handling
+   - Wrap main control flow in try/except blocks.
+   - Catch ValueError for invalid playlist links or invalid time input.
+   - Catch RuntimeError for missing devices.
+   - Catch generic Exception only as a final fallback.
+   - Replace raw tracebacks with clearer user-facing messages.
+
+3. Tighten playlist validation
+   - Restrict playlist parsing to actual Spotify playlist links or spotify:playlist: URIs.
+   - Avoid accepting unrelated URLs that merely contain playlist-like text.
+
+4. Remove duplicated time calculations
+   - seconds and seconds_to_target currently represent the same idea.
+   - Compute the delay once and store it in one variable only.
+
+5. Keep environment loading explicit and stable
+   - Continue loading the .env file from the repository root using Path(__file__).resolve().parent.parent / ".env".
+   - This prevents failures caused by running the script from different working directories.
+
+6. Separate business logic from user interaction
+   - Keep input() and print() calls mostly inside main().
+   - Let helper functions focus on computation or Spotify API interaction.
+   - This makes testing easier and makes later refactoring to a GUI or web interface easier.
+
+7. Make stop-mode handling easier to extend
+   - Keep duration and time as separate branches, but organize them so that a future songs mode can be added cleanly.
+   - A helper dispatcher or a mode-to-function map would make this cleaner.
+
+VARIABLE NAME CHANGES FOR final01.py
+
+Recommended renames for clarity:
+- sp -> spotify_client
+  Reason: clearer than a short abbreviation.
+
+- playlist -> playlist_input
+  Reason: distinguishes raw user input from a validated URI.
+
+- playlist_uri -> normalized_playlist_uri
+  Reason: makes it clear that the value has already been transformed and validated.
+
+- mode -> stop_mode
+  Reason: more descriptive and avoids ambiguity.
+
+- minutes -> duration_minutes
+  Reason: more explicit about meaning.
+
+- stop_time -> stop_time_input
+  Reason: distinguishes user input from a parsed datetime value.
+
+- stop_time_str -> stop_time_input
+  Reason: consistent naming.
+
+- stop_dt -> stop_datetime
+  Reason: easier to read.
+
+- now -> current_datetime
+  Reason: clearer meaning in scheduling logic.
+
+- seconds -> sleep_seconds
+  Reason: makes it obvious this is the delay passed to time.sleep().
+
+- seconds_to_target -> remove or merge into sleep_seconds
+  Reason: duplicate concept.
+
+INPUT / OUTPUT CHANGES FOR final01.py
+
+Recommended input changes:
+1. Validate playlist input before announcing success.
+2. Validate stop mode so only accepted values are allowed.
+3. Validate duration input as a positive number.
+4. Validate time input format before attempting playback scheduling.
+5. Optionally reprompt the user instead of crashing on bad input.
+
+Recommended output changes:
+1. Replace ambiguous message "Connected to Spotify!" with stage-specific messages such as:
+   - "Spotify authentication successful."
+   - "Valid Spotify playlist detected."
+   - "Playback started on device <device_id>."
+2. Replace raw exceptions with readable error messages.
+3. Confirm which stop mode is active after the user selects it.
+4. Print a final confirmation when playback is paused successfully.
+
+SUGGESTED final01.py BEHAVIORAL DIFFERENCES
+
+1. Authentication success should not imply playlist validity.
+2. Invalid playlist input should produce a clean message and stop safely.
+3. Invalid mode input should not silently fall through.
+4. Time-based stopping should use one computed delay value.
+5. All status messages should match real program state.
+
+SUMMARY OF MOST IMPORTANT CHANGES
+
+- Separate authentication success from input validation success.
+- Rename short variables to descriptive names.
+- Remove duplicate timing variables.
+- Add clear error handling and user-facing status messages.
+- Keep all environment loading and path logic explicit.
+- Make final01.py easier to read, test, and extend.

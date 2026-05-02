@@ -131,7 +131,6 @@ def determine_premium_status(sp):
     """
     try:
         sp.devices()
-        # current_playback() can still return None with no active playback, which is fine.
         sp.current_playback()
         return True
     except SpotifyException as exc:
@@ -189,7 +188,12 @@ def show_resource_contents(sp, resource_type, resource_id, resource_data):
 
     if resource_type == "artist":
         print(f"\nArtist: {resource_data.get('name', 'Unknown artist')}")
-        print("Spotify can play this artist context for Premium users, but without Premium this program only shows metadata.")
+        followers = resource_data.get("followers", {}).get("total")
+        if followers is not None:
+            print(f"Followers: {followers}")
+        genres = resource_data.get("genres", [])
+        if genres:
+            print("Genres: " + ", ".join(genres))
         return
 
     if resource_type == "track":
@@ -276,17 +280,24 @@ def main():
 
     resource_input, resource_type, resource_id, resource_uri, resource_data = prompt_until_valid_resource(sp)
 
+    print("\nResource details:")
+    show_resource_contents(sp, resource_type, resource_id, resource_data)
+
     is_premium = determine_premium_status(sp)
 
     if not is_premium:
         print("\nPlayback control requires Spotify Premium.")
         print("Showing resource contents instead.")
-        show_resource_contents(sp, resource_type, resource_id, resource_data)
         return
 
-    playback = get_current_playback(sp)
-    device_id = get_active_device(sp)
-    start_or_resume_playback(sp, playback, resource_type, resource_uri, device_id)
+    try:
+        playback = get_current_playback(sp)
+        device_id = get_active_device(sp)
+        start_or_resume_playback(sp, playback, resource_type, resource_uri, device_id)
+    except (RuntimeError, SpotifyException) as exc:
+        print(f"\nPlayback control is unavailable right now: {exc}")
+        print("Showing resource contents instead.")
+        return
 
     mode = input("Stop mode (duration/time/none): ").strip().lower()
     if mode == "duration":

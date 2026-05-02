@@ -1,1 +1,102 @@
-update readme to reflect final status of project
+CHATGPT SYSTEM PROMPT + STRUCTURED CHANGELOG
+
+========================
+CURRENT SYSTEM SUMMARY
+========================
+
+Program: Spotify Playback Controller
+
+Core Behavior:
+- Authenticates user via Spotify OAuth (Spotipy)
+- Accepts user input for a Spotify playable resource:
+  (playlist, album, artist, track, episode)
+- Validates input until a playable resource is provided
+- Determines current playback state before acting
+- Either:
+  - resumes current playback if already correct
+  - or starts new playback from provided resource
+
+Playback Logic:
+- Checks:
+  - is_playing
+  - current item URI
+  - current context URI
+  - progress_ms
+- If current playback matches requested resource:
+  - resume if paused
+  - do nothing if already playing
+- Otherwise:
+  - start playback from beginning
+
+Structure:
+- get_spotify_client()
+- get_active_device()
+- extract_spotify_resource()
+- validate_resource()
+- get_current_playback()
+- start_or_resume_playback()
+- stop logic (time/duration)
+
+Inputs:
+- Spotify URL or URI
+- stop mode (time/duration)
+- timing input
+
+Outputs:
+- status messages
+- playback control via Spotify
+
+Key Variables:
+- resource_input
+- resource_uri
+- resource_type
+- device_id
+- sp (Spotify client)
+
+Design Principles:
+- Always validate input
+- Never assume playback state
+- Preserve user context when possible
+- Separate parsing, validation, and execution
+
+========================
+HOW TO USE THIS FILE (FOR CHATGPT)
+========================
+
+When generating a new version:
+1. Use CURRENT SYSTEM SUMMARY as the base implementation
+2. Do NOT remove working functionality unless specified
+3. Extend behavior cleanly
+4. Maintain naming consistency
+5. Update both:
+   - code
+   - changelog
+
+========================
+VERSION HISTORY
+========================
+
+=== v1 (status01.py) ===
+- Basic playlist-only playback
+- No validation loop
+- Simple start/stop structure
+
+=== v2 (final01.py) ===
+- Refactored structure
+- Introduced modular functions
+- Added duration/time stopping
+
+=== v3 (final02.py) ===
+- Input validation loop added
+- Support for multiple Spotify resource types
+- Improved parsing and error handling
+
+=== v4 (final03.py) ===
+- Added playback state awareness
+- Resume vs restart logic implemented
+- Uses current playback context
+- Avoids interrupting correct playback
+
+========================
+END OF FILE
+========================

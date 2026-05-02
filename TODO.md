@@ -11,9 +11,10 @@
 [x] fix link bug (Avi)
 
 # TODO Final FP
-[] unpause/pause music where left off (Avi)
-[] test reliablility (Avi)
+[x] unpause/pause music where left off (Avi)
+[x] test reliablility (Avi)
 [] start/stop after number of songs (Ari)
+[x] update readme to reflect final status of project (Avi)
 [] update readme to reflect final status of project (Ari)
 
 # IDEAS for extension

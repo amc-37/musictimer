@@ -19,6 +19,9 @@ when you add something THEN
 
     git pull
 
+**usually, when editing in the terminal, this command is useful:**
+
+    git pull --rebase origin main
 ------------------------------------------------------------------
 
 # **THE MEAT OF OUR PROJECT**

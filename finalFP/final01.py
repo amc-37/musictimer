@@ -88,18 +88,14 @@ def stop_at_clock_time(sp, device_id, stop_time_str):
     print("Music stopped")
 
 def main():
-    sp = get_spotify_client()
-    print(f"sp={sp}")
+    ssp = get_spotify_client()
+    print("Connected to Spotify!")
 
-    while True:
-        playlist = input("Playlist URL or URI: ").strip()
-        if 'spotify.com' in playlist:
-            print("Connected to Spotify!")
-            break
+    playlist = input("Playlist URL or URI: ").strip()
+    playlist_uri = extract_playlist_uri(playlist)
+    print("Valid Spotify playlist detected.")
 
     mode = input("Stop mode (duration/time): ").strip().lower()
-
-    playlist_uri = extract_playlist_uri(playlist)
     device_id = get_active_device(sp)
 
     start_playlist(sp, playlist_uri, device_id)

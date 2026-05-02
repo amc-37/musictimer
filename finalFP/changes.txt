@@ -1,6 +1,6 @@
 CHANGES FOR final01.py
 
-This document records the current specification and implementation of the musictimer program and then lists the major changes made while transferring the code into final01.py.
+This document records the current specification and implementation of the music timer program and then lists the major changes made while transferring the code into final01.py.
 
 CURRENT FILE DESCRIPTION (based on the current working version, status02.py)
 
@@ -227,3 +227,34 @@ SUMMARY OF MOST IMPORTANT CHANGES
 - Add clear error handling and user-facing status messages.
 - Keep all environment loading and path logic explicit.
 - Make final01.py easier to read, test, and extend.
+
+========================================================================
+
+UPDATED: 2026-05-02T03:43:30.193367
+
+=== FINAL02 CHANGES ===
+
+STRUCTURAL CHANGES: - Added input validation loop: program repeatedly
+prompts user until valid Spotify resource is provided. - Introduced
+unified resource parser supporting: - playlist - album - artist -
+track - episode - Added validation step using Spotify API before
+playback begins. - Separated parsing and validation logic from playback
+logic. - Playback logic now branches based on resource type: - context
+playback (playlist/album/artist) - single playback (track/episode)
+
+VARIABLE NAME CHANGES: - playlist -> resource_input (generalized) -
+playlist_uri -> resource_uri - extract_playlist_uri ->
+extract_spotify_resource - start_playlist -> start_playback_context -
+Added: - resource_type - is_valid_resource
+
+INPUT CHANGES: - Accepts any Spotify playable URL or URI - Rejects: -
+non-Spotify links - unsupported Spotify links - Prompts user repeatedly
+until valid input
+
+OUTPUT CHANGES: - Clear validation feedback: - “Invalid Spotify link” -
+“Unsupported resource type” - Confirmation messages: - “Connected to
+Spotify” - “Valid Spotify resource detected”
+
+BEHAVIORAL CHANGES: - Program no longer crashes on invalid input -
+Program ensures playable queue exists before playback - Improved user
+interaction loop

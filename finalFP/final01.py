@@ -95,8 +95,7 @@ def main():
         playlist = input("Playlist URL or URI: ").strip()
         if 'spotify.com' in playlist:
             print("Connected to Spotify!")
-        break
-
+            break
 
     mode = input("Stop mode (duration/time): ").strip().lower()
 

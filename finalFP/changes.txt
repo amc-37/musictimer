@@ -6,71 +6,98 @@ CURRENT SYSTEM SUMMARY
 
 Program: Spotify Playback Controller
 
-Core Behavior:
+Current capabilities:
 - Authenticates user via Spotify OAuth (Spotipy)
-- Accepts user input for a Spotify playable resource:
-  (playlist, album, artist, track, episode)
-- Validates input until a playable resource is provided
-- Determines current playback state before acting
-- Either:
-  - resumes current playback if already correct
-  - or starts new playback from provided resource
+- Accepts a Spotify playable resource as input
+- Re-prompts until a valid playable Spotify resource is entered
+- Supports playlist, album, artist, track, and episode resources
+- Detects current playback state before acting
+- For Premium users:
+  - resumes current playback if the requested resource already matches
+  - continues playback when paused on the requested resource
+  - otherwise starts playback from the beginning of the requested resource
+  - supports optional stop logic by duration or clock time
+- For non-Premium users:
+  - does not attempt premium-only playback control
+  - prints a clear Premium requirement message
+  - shows playlist contents or readable resource metadata instead
 
-Playback Logic:
+Playback-state awareness:
 - Checks:
   - is_playing
   - current item URI
   - current context URI
-  - progress_ms
-- If current playback matches requested resource:
-  - resume if paused
-  - do nothing if already playing
-- Otherwise:
-  - start playback from beginning
+  - progress_ms (when available from the API)
+- Uses that information to decide between resume/continue/restart behavior
+
+Non-Premium support:
+- Gracefully handles users without Premium
+- Uses metadata-reading endpoints even when playback control is unavailable
+- For playlists, prints a readable track list
+- For albums, prints album metadata and track names
+- For artists, prints artist metadata
+- For tracks and episodes, prints readable metadata
 
 Structure:
 - get_spotify_client()
 - get_active_device()
 - extract_spotify_resource()
 - validate_resource()
+- prompt_until_valid_resource()
 - get_current_playback()
+- determine_premium_status()
+- show_resource_contents()
 - start_or_resume_playback()
-- stop logic (time/duration)
+- stop_after_duration()
+- stop_at_clock_time()
+- main()
 
 Inputs:
 - Spotify URL or URI
-- stop mode (time/duration)
-- timing input
+- stop mode (duration/time/none) for Premium playback path
+- timing input when playback control is available
 
 Outputs:
-- status messages
-- playback control via Spotify
+- connection and validation status messages
+- Premium requirement message for non-Premium users
+- playlist contents / resource metadata in non-Premium mode
+- playback control behavior in Premium mode
 
 Key Variables:
 - resource_input
 - resource_uri
 - resource_type
+- resource_id
+- resource_data
+- playback
+- is_premium
 - device_id
-- sp (Spotify client)
+- current_context_uri
+- current_item_uri
+- progress_ms
 
 Design Principles:
 - Always validate input
 - Never assume playback state
 - Preserve user context when possible
-- Separate parsing, validation, and execution
+- Separate parsing, validation, playback, and display logic
+- Fail gracefully for non-Premium users
 
 ========================
 HOW TO USE THIS FILE (FOR CHATGPT)
 ========================
 
 When generating a new version:
-1. Use CURRENT SYSTEM SUMMARY as the base implementation
-2. Do NOT remove working functionality unless specified
-3. Extend behavior cleanly
-4. Maintain naming consistency
-5. Update both:
-   - code
-   - changelog
+1. Use CURRENT SYSTEM SUMMARY as the base implementation.
+2. Treat the most recent behavior as authoritative.
+3. Preserve working functionality unless explicitly changed.
+4. Maintain naming consistency where possible.
+5. Extend logic cleanly without collapsing validation, playback, and display concerns.
+6. Update this changelog with:
+   - current system summary
+   - important structural changes
+   - key variable-name changes
+   - input/output changes
 
 ========================
 VERSION HISTORY
@@ -87,15 +114,44 @@ VERSION HISTORY
 - Added duration/time stopping
 
 === v3 (final02.py) ===
-- Input validation loop added
-- Support for multiple Spotify resource types
+- Added input validation loop
+- Added support for multiple Spotify playable resource types
 - Improved parsing and error handling
 
 === v4 (final03.py) ===
-- Added playback state awareness
-- Resume vs restart logic implemented
+- Added playback-state awareness
+- Added resume vs restart logic
 - Uses current playback context
 - Avoids interrupting correct playback
+
+=== v5 (final04.py) ===
+- Added explicit support path for non-Premium users
+- Added Premium requirement messaging
+- Added ability to show playlist contents without playback control
+- Added readable metadata display for non-playlist resource types
+- Preserved final03 behavior for Premium users
+
+========================
+ESSENTIAL DELTA FOR v5
+========================
+
+Structural changes:
+- Added determine_premium_status() to distinguish Premium vs non-Premium flow
+- Added show_resource_contents() for read-only display mode
+- Added print_playlist_contents() for playlist track listings
+- Split main() into Premium playback path and non-Premium display path
+
+Important variable / concept changes:
+- Added is_premium
+- Added resource_id for direct metadata lookup
+- Added resource_data to avoid repeated API lookups
+- Continued use of resource_input/resource_uri/resource_type from earlier versions
+
+Input / output changes:
+- Stop-mode prompts now appear only when playback control is available
+- Non-Premium users receive a Premium requirement message instead of player-control errors
+- Playlist input can now produce a printable track list even without playback control
+- Album / artist / track / episode input can now produce readable metadata output in non-Premium mode
 
 ========================
 END OF FILE

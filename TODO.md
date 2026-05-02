@@ -13,8 +13,8 @@
 # TODO Final FP
 [x] unpause/pause music where left off (Avi)
 [x] test reliablility (Avi)
-[] start/stop after number of songs (Ari)
 [x] update readme to reflect final status of project (Avi)
+[] start/stop after number of songs (Ari)
 [] update readme to reflect final status of project (Ari)
 
 # IDEAS for extension

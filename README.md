@@ -317,7 +317,7 @@ If authentication works, the rest of the project (playlist + timer logic) will r
 
 **changes.txt**
 
-    a version control document for working with chat-gpt, which Avi asked the model to update with specification, implementation, variable names, and structural changes when making changes so that it could refer to something simpler and more helpful than an entire codebase when helping with code changes. we prompted the model to update this document with every major structural change- this reduced our compute time.
+    a version control document for working with chat-gpt, which we asked the model to update with the system logic, structure, and changes. it is written to be clear for chat-gpt (recursive design), and this is to reduce our compute time as we work with an AI model. this is also useful as we work on different parts of the project.
 
 **final01.py**
 

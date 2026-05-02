@@ -98,7 +98,6 @@ def main():
         break
 
 
-
     mode = input("Stop mode (duration/time): ").strip().lower()
 
     playlist_uri = extract_playlist_uri(playlist)

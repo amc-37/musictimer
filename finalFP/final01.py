@@ -93,8 +93,9 @@ def main():
     try:
         playlist = input("Playlist URL or URI: ").strip()
         print("Connected to Spotify!")
-    except:
+    except ValueError:
         
+
     mode = input("Stop mode (duration/time): ").strip().lower()
 
     playlist_uri = extract_playlist_uri(playlist)

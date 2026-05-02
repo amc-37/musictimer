@@ -8,12 +8,12 @@
 
 # Bugs
 [x] fix pause bug
-[] fix link bug
+[] fix link bug (Avi)
 
 # TODO Final FP
-[] unpause/pause music where left off
-[] start/stop after number of songs
-[] test reliablility
+[] unpause/pause music where left off (Avi)
+[] test reliablility (Avi)
+[] start/stop after number of songs (Ari)
 
 # IDEAS for fun
 [] have program pick selection of songs to near-exactly fill play time entered

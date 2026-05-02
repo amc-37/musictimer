@@ -4,7 +4,7 @@
 [x] make connection work
 [x] combine connection file stuff and time stuff
 [x] test code
-[] make video
+[x] make video
 
 # IDEAS
 [x] fix pause bug
